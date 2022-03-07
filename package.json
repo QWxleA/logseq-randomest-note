@@ -1,8 +1,8 @@
 {
-  "name": "logseq-random-note",
-  "version": "1.0.3",
+  "name": "logseq-randomest-note",
+  "version": "1.0.0a",
   "author": "Qwxlea",
-  "description": "Random walk through your Logseq notes.",
+  "description": "Serendipity through your random (tagged) notes.",
   "main": "dist/index.html",
   "targets": {
     "main": false
@@ -12,7 +12,7 @@
   },
   "logseq": {
     "icon": "./icon.png",
-    "id": "logseq-random-note"
+    "id": "logseq-randomest-note"
   },
   "dependencies": {
     "@logseq/libs": "^0.0.1-alpha.35"
