@@ -1,11 +1,10 @@
 {
   "name": "logseq-random-note",
   "version": "1.0.3",
-  "author": "TankCool",
+  "author": "Qwxlea",
   "main": "dist/index.html",
   "description": "Random walk through your Logseq notes.",
   "scripts": {
-    "dev": "parcel index.html --port 1235",
     "build": "parcel build --public-url ./ --no-source-maps index.html  --no-minify"
   },
   "logseq": {
@@ -18,8 +17,5 @@
   "devDependencies": {
     "parcel-bundler": "^1.12.5"
   },
-  "license": "MIT",
-  "browserslist": [
-    "chrome 80"
-  ]
+  "license": "MIT"
 }
