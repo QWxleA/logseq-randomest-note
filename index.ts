@@ -14,7 +14,7 @@ const settingsTemplate:SettingSchemaDesc[] = [{
     type: 'enum',
     enumChoices: choices,
     enumPicker: 'radio',
-    //default: 0,
+    default: choices[0],
     title: "Show entire graph or tagged pages?",
     description: "Choose random  page from everywhere or only by page-tag.",
  },
@@ -24,7 +24,15 @@ const settingsTemplate:SettingSchemaDesc[] = [{
     default: "seedling",
     title: "Specific tag to search?",
     description: "Limit search to this tag ('seedling' by default).",
+  },
+  {
+    key: "coloredIcon",
+    type: 'boolean',
+    default: true,
+    title: "Show colored icon?",
+    description: "If yes, then it will be green when the 'tag' is selected",
   }
+
 ]
 logseq.useSettingsSchema(settingsTemplate)
 
@@ -70,25 +78,12 @@ function main() {
       openRandomNote()
   }})
 
-  //logseq.onSettingsChanged((updated) => {
-  //  //console.log('a2', updated);
-  //  console.log('show', updated["showTag"]);
-  //  console.log('search', updated["searchTag"]);
-  //
-  //  choices = ["Entire graph","Limit to " + updated["searchTag"]]
-  //}); 
-
-  logseq.provideStyle(`
-  .logseq-randomest-note-toolbar .ti-dice {
-    font-size: 208px;
-    color: green;
-  }
-  `);
-
-  logseq.setMainUIInlineStyle({
-    position: "fixed",
-    width: '200px',
-  })
+  logseq.onSettingsChanged((updated) => {
+    //console.log('updated:', updated);
+    provideStyle()
+  }); 
+ 
+  const provideStyle = () => logseq.provideStyle(` .ti-dice { color:  ${logseq.settings.coloredIcon ? "green" : "var(--ls-primary-text-color)"}; } `);
 
   logseq.App.registerUIItem("toolbar", {
     key: 'logseq-randomest-note-toolbar',
