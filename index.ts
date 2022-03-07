@@ -1,15 +1,30 @@
 import '@logseq/libs'
+import SettingSchemaDesc from '@logseq/libs/dist/LSPlugin.user';
 
-const settingsTemplate = [
-  {
+const settingsTemplate:SettingSchemaDesc[] = [{
     key: "includeJournals",
     type: 'boolean',
     default: false,
-    title: "Include Journals?",
-    description: "Check to include journals while you random walk through your Logseq notes.",
+    title: "include journals?",
+    description: "Include journals in random pages.",
+  },
+   {
+    key: "showSeedlings2",
+    type: 'enum',
+    enumChoices: ["Entire graph","Limit to seedlings"],
+    enumPicker: 'radio',
+    default: 0,
+    title: "Show seedling 222?",
+    description: "Choose random  22 page only from seedlings.",
+  },
+ {
+    key: "showSeedlings",
+    type: 'boolean',
+    default: true,
+    title: "Show seedling?",
+    description: "Choose random page only from seedlings.",
   }
 ]
-
 logseq.useSettingsSchema(settingsTemplate)
 
 async function openRandomNote() {
@@ -23,6 +38,16 @@ async function openRandomNote() {
     [:find (pull ?p [*])
       :where
       [_ :block/page ?p]]` 
+  }
+  if (logseq.settings.showSeedlings || qq=="2") {
+    query = `
+     [:find (pull ?p [*])
+      :where
+      [_ :block/page ?p]
+      [?p :block/name ?page]
+      (not [(= ?page "templates")])
+      [?p :block/tags [:block/name "seedling"]]
+     ]` 
   }
   try {
     let ret = await logseq.DB.datascriptQuery(query)
@@ -40,17 +65,17 @@ async function openRandomNote() {
 
 function main() {
 
-  const doc = document
+  //const doc = document
 
   logseq.provideModel({
-    openSettingPanel (e) {
-      const { rect } = e
-      logseq.setMainUIInlineStyle({
-        top: `${rect.top + 25}px`,
-        left: `${rect.right - 17}px`,
-      })
-      logseq.toggleMainUI()
-    },
+    //openSettingPanel (e) {
+    //  const { rect } = e
+    //  logseq.setMainUIInlineStyle({
+    //    top: `${rect.top + 25}px`,
+    //    left: `${rect.right - 17}px`,
+    //  })
+    //  logseq.toggleMainUI()
+    //},
     handleRandomNote() {
       openRandomNote()
     }
