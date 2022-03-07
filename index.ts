@@ -1,20 +1,13 @@
 import '@logseq/libs'
 import SettingSchemaDesc from '@logseq/libs/dist/LSPlugin.user';
 
-const choices = ["Entire graph","Limit to seedlings"]
+var choices = ["Entire graph","Limit to tag"]
 const settingsTemplate:SettingSchemaDesc[] = [{
     key: "includeJournals",
     type: 'boolean',
     default: false,
     title: "include journals?",
     description: "Include journals in random page search.",
-  },
-  {
-    key: "searchTag",
-    type: 'string',
-    default: "seedling",
-    title: "Specific tag to search?",
-    description: "Limit search to this tag ('seedling' by default).",
   },
  {
     key: "showTag",
@@ -24,7 +17,14 @@ const settingsTemplate:SettingSchemaDesc[] = [{
     //default: 0,
     title: "Show entire graph or tagged pages?",
     description: "Choose random  page from everywhere or only by page-tag.",
- }
+ },
+  {
+    key: "searchTag",
+    type: 'string',
+    default: "seedling",
+    title: "Specific tag to search?",
+    description: "Limit search to this tag ('seedling' by default).",
+  }
 ]
 logseq.useSettingsSchema(settingsTemplate)
 
@@ -71,8 +71,11 @@ function main() {
   }})
 
   //logseq.onSettingsChanged((updated) => {
-  //  console.log('a2', updated);
-  //  console.log('b', updated["showTag"]);
+  //  //console.log('a2', updated);
+  //  console.log('show', updated["showTag"]);
+  //  console.log('search', updated["searchTag"]);
+  //
+  //  choices = ["Entire graph","Limit to " + updated["searchTag"]]
   //}); 
 
   logseq.provideStyle(`

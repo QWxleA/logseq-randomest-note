@@ -11,6 +11,12 @@ Serendipity results from the ability to identify ‘matching pairs’ of events,
 - open the toolbar dot menu and navigate to the plugins page (`Esc t p`)
 - click `Load unpacked package` button, then select the `logseq-random-note` directory
 
+Under **Settings** (which can be found on the plugin's card in the left lower corner):
+
+- *Include journals* will show any page *or* journal as a random page
+- *Show entire graph or tagged pages* makes it possible to limit the choice to only **pages** with a specific tag
+- *Specific tag to search* tag to limit the search to. These are page tags: (`tags::` straight under the title)
+
 ### Notes
 
 This plugin is a partial rewrite of [TankCool/logseq-random-note: Random walk through your Logseq notes.](https://github.com/TankCool/logseq-random-note). All mistakes are wholly mine.
