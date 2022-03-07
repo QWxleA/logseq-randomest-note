@@ -3,6 +3,10 @@
   "version": "1.0.3",
   "author": "Qwxlea",
   "description": "Random walk through your Logseq notes.",
+  "main": "dist/index.html",
+  "targets": {
+    "main": false
+  },
   "scripts": {
     "build": "parcel build --public-url ./ --no-source-maps index.html"
   },

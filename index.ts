@@ -58,36 +58,23 @@ function main() {
 )
 
   logseq.provideStyle(`
-  @import url("https://at.alicdn.com/t/font_2809512_lswgn9yir8.css");
-  
-  .logseq-random-note-toolbar {
-    display: flex;
-    border-radius: 5px;
-  }
-
-  .logseq-random-note-toolbar a.button {
-    padding: 0;   
-    margin: 0;
-  }
-
-  .logseq-random-note-toolbar .iconfont {
-    font-size: 18px;
+  .logseq-random-note-toolbar .ti-dice {
+    font-size: 208px;
+    color: green;
   }
   `);
 
   logseq.setMainUIInlineStyle({
     position: "fixed",
-    width: '290px',
-    zIndex: 999,
-    transform: 'translateX(-50%)',
+    width: '200px',
   });
 
   logseq.App.registerUIItem("toolbar", {
     key: 'logseq-random-note-toolbar',
     template: `
-      <span class="logseq-random-note-toolbar">
+      <span class="logseq-random-note-toolbar flex flex-row">
         <a title="I'm Feeling Lucky" class="button" data-on-click="handleRandomNote">
-          <i class="iconfont icon-random"></i>
+          <i class="ti ti-dice"></i>
         </a>
       </span>
     `,
