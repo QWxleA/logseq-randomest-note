@@ -2,7 +2,7 @@
 
 Serendipity results from the ability to identify ‘matching pairs’ of events, or events that are meaningfully, even if not necessarily causally, related. But for that you need some guided randomness in your graph.
 
-![screenshot](./screenshot20210914.png)
+![screenshot](./screenshot.png)
 
 ### Usage
 
