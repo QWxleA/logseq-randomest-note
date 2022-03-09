@@ -1,6 +1,6 @@
 {
   "name": "logseq-randomest-note",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "author": "Qwxlea",
   "description": "Serendipity through your random (tagged) notes.",
   "main": "dist/index.html",

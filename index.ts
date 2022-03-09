@@ -36,28 +36,30 @@ const settingsTemplate:SettingSchemaDesc[] = [{
 ]
 logseq.useSettingsSchema(settingsTemplate)
 
-async function openRandomNote() {
-  var query = `
-  [:find (pull ?p [*])
-    :where
-    [_ :block/page ?p]
-    [?p :block/journal? false]]`
-  if (logseq.settings.includeJournals) {
-    query = `
-    [:find (pull ?p [*])
-      :where
-      [_ :block/page ?p]]` 
-  }
-  if (logseq.settings.showTag == choices[1]) {
-    query = `
-     [:find (pull ?p [*])
-      :where
-      [_ :block/page ?p]
-      [?p :block/name ?page]
-      (not [(= ?page "templates")])
-      [?p :block/tags [:block/name "${logseq.settings.searchTag}"]]
-     ]` 
-  }
+async function openRandomNote(ranType) {
+    console.log("ranType",ranType)
+    if ( ranType == choices[0] ) {
+      var query = `
+      [:find (pull ?p [*])
+        :where
+        [_ :block/page ?p]
+        [?p :block/journal? false]]`
+      if (logseq.settings.includeJournals) {
+        query = `
+        [:find (pull ?p [*])
+          :where
+          [_ :block/page ?p]]` 
+      }
+    } else {
+      query = `
+       [:find (pull ?p [*])
+        :where
+        [_ :block/page ?p]
+        [?p :block/name ?page]
+        (not [(= ?page "templates")])
+        [?p :block/tags [:block/name "${logseq.settings.searchTag}"]]
+       ]` 
+    }
   try {
     let ret = await logseq.DB.datascriptQuery(query)
     const pages = ret?.flat()
@@ -75,7 +77,7 @@ async function openRandomNote() {
 function main() {
   logseq.provideModel({
     handleRandomNote() {
-      openRandomNote()
+      openRandomNote(logseq.settings.showTag)
   }})
 
   logseq.onSettingsChanged((updated) => {
@@ -90,9 +92,18 @@ function main() {
     label: `Show random note`,
     keybinding: {
       mode: 'global',
-      binding: 'g r'
+      binding: 'r r'
     }
-  }, openRandomNote); 
+  }, async () => { openRandomNote(choices[0]) }); 
+
+  logseq.App.registerCommandPalette({
+    key: `randomest-note-s`,
+    label: `Show random note (tag)`,
+    keybinding: {
+      mode: 'global',
+      binding: 'r s'
+    }
+  }, async () => { openRandomNote(choices[1]) }); 
 
   logseq.App.registerUIItem("toolbar", {
     key: 'logseq-randomest-note-toolbar',
