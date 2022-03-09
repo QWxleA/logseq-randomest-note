@@ -85,6 +85,15 @@ function main() {
  
   const provideStyle = () => logseq.provideStyle(` .ti-dice { color:  ${logseq.settings.coloredIcon ? "green" : "var(--ls-primary-text-color)"}; } `);
 
+  logseq.App.registerCommandPalette({
+    key: `randomest-note`,
+    label: `Show random note`,
+    keybinding: {
+      mode: 'global',
+      binding: 'm m'
+    }
+  }, openRandomNote); 
+
   logseq.App.registerUIItem("toolbar", {
     key: 'logseq-randomest-note-toolbar',
     template: `
