@@ -2,9 +2,7 @@
 
 Serendipity results from the ability to identify ‘matching pairs’ of events, or events that are meaningfully, even if not necessarily causally, related. But for that you need some guided randomness in your graph.
 
-![screenshot](./screenshot.png)
-
-### Usage
+### Installation
 
 - `git clone https://github.com:QWxleA/logseq-randomest-note.git`
 - open Logseq Desktop client and turn on `Developer mode` in the user settings panel (`Esc t s`)
@@ -16,6 +14,14 @@ Under **Settings** (which can be found on the plugin's card in the left lower co
 - *Include journals* will show any page *or* journal as a random page
 - *Show entire graph or tagged pages* makes it possible to limit the choice to only **pages** with a specific tag
 - *Specific tag to search* tag to limit the search to. These are page tags: (`tags::` straight under the title)
+
+### Usage
+
+![screenshot](./screenshot.png)
+
+1. Press the button to show a random page.
+2. Use the keybinding: `g r` (go random) shows a random page
+3. Use the *command pallette* `Ctrl+Shift+p` and then `Show random page`
 
 ### Notes
 

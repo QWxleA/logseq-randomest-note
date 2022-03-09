@@ -90,7 +90,7 @@ function main() {
     label: `Show random note`,
     keybinding: {
       mode: 'global',
-      binding: 'm m'
+      binding: 'g r'
     }
   }, openRandomNote); 
 
