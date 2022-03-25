@@ -30,10 +30,10 @@ Under **Settings** (which can be found on the plugin's card in the left lower co
 4. Using the keybinding: `s n` shows random page, anything but a journal page
 5. Using the keybinding: `s s` shows random tagged page
 
-6. Use the *command pallette* `Ctrl+Shift+p` and then `Show random page`
-7. Use the *command pallette* `Ctrl+Shift+p` and then `Show random journal page`
-8. Use the *command pallette* `Ctrl+Shift+p` and then `Show random page, anything but a journal page`
-9. Use the *command pallette* `Ctrl+Shift+p` and then `Show random tagged page`
+6. Use the *command palette* `Ctrl+Shift+p` and then `Show random page`
+7. Use the *command palette* `Ctrl+Shift+p` and then `Show random journal page`
+8. Use the *command palette* `Ctrl+Shift+p` and then `Show random page, anything but a journal page`
+9. Use the *command palette* `Ctrl+Shift+p` and then `Show random tagged page`
 
 ## Template
 
