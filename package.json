@@ -1,18 +1,19 @@
 {
-  "name": "logseq-randomest-note",
-  "version": "1.0.2",
+  "name": "logseq-serendipity",
+  "version": "0.1.0",
   "author": "Qwxlea",
-  "description": "Serendipity through your random (tagged) notes.",
+  "description": "Bring some serendipity to your graph",
   "main": "dist/index.html",
   "targets": {
     "main": false
   },
   "scripts": {
-    "build": "parcel build --public-url ./ --no-source-maps index.html"
+    "build": "parcel build --public-url ./ --no-source-maps index.html",
+    "preview": "gh-social-preview.py -t \"Logseq Serendipity Plugin\" -e \"Some of the greatest things, as I understand, they have come about by serendipity, the greatest discoveries\" -i \"background.png\" -f \"PlayfairDisplay-VariableFont_wght.ttf\" -b \"Montserrat-VariableFont_wght.ttf\" -l icon2.png -v \"$npm_package_version\""
   },
   "logseq": {
     "icon": "./icon.png",
-    "id": "logseq-randomest-note"
+    "id": "logseq-serendipity"
   },
   "dependencies": {
     "@logseq/libs": "^0.0.1-alpha.35"
