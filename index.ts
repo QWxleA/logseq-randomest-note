@@ -145,7 +145,7 @@ function main() {
 
   logseq.App.registerCommandPalette({
     key: `serendipity-r`,
-    label: `Show any random note`,
+    label: `Show any random page`,
     keybinding: {
       mode: 'global',
       binding: 's r'
@@ -155,7 +155,7 @@ function main() {
   //FIXME can this be the tag?
   logseq.App.registerCommandPalette({
     key: `serendipity-t`,
-    label: `Show random tagged note`,
+    label: `Show random tagged page`,
     keybinding: {
       mode: 'global',
       binding: 's s'
@@ -164,7 +164,7 @@ function main() {
 
   logseq.App.registerCommandPalette({
     key: `serendipity-n`,
-    label: `Show random note, anything but a journal`,
+    label: `Show random page, anything but a journal`,
     keybinding: {
       mode: 'global',
       binding: 's n'
