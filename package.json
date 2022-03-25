@@ -1,6 +1,6 @@
 {
   "name": "logseq-serendipity",
-  "version": "0.1.0",
+  "version": "2.0.0",
   "author": "Qwxlea",
   "description": "Bring some serendipity to your graph",
   "main": "dist/index.html",
