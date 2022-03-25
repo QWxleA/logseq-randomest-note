@@ -1,7 +1,7 @@
 import '@logseq/libs'
 import SettingSchemaDesc from '@logseq/libs/dist/LSPlugin.user';
 
-var choices = ["Entire graph","Limit to tag"]
+var choices = ["Entire graph","Limit to tag","No journal", "Only journal"]
 const settingsTemplate:SettingSchemaDesc[] = [{
     key: "includeJournals",
     type: 'boolean',
@@ -15,8 +15,8 @@ const settingsTemplate:SettingSchemaDesc[] = [{
     enumChoices: choices,
     enumPicker: 'radio',
     default: choices[0],
-    title: "Show entire graph or tagged pages?",
-    description: "Choose random  page from everywhere or only by page-tag.",
+    title: "What to show with the serendipity button?",
+    description: "Choose between random  pages, journals, only by page-tag.",
  },
   {
     key: "searchTag",
@@ -42,30 +42,20 @@ const settingsTemplate:SettingSchemaDesc[] = [{
 ]
 logseq.useSettingsSchema(settingsTemplate)
 
-async function openRandomNote(ranType) {
-    // console.log("ranType",ranType)
-    if ( ranType == choices[0] ) {
-      var query = `
-      [:find (pull ?p [*])
-        :where
-        [_ :block/page ?p]
-        [?p :block/journal? false]]`
-      if (logseq.settings.includeJournals) {
-        query = `
-        [:find (pull ?p [*])
-          :where
-          [_ :block/page ?p]]` 
-      }
-    } else {
-      query = `
-       [:find (pull ?p [*])
-        :where
-        [_ :block/page ?p]
-        [?p :block/name ?page]
-        (not [(= ?page "templates")])
-        [?p :block/tags [:block/name "${logseq.settings.searchTag}"]]
-       ]` 
-    }
+//var choices = ["Entire graph","Limit to tag","No journal", "Only journal"]
+async function openRandomNote(ranType) {    
+    const showJournal = ( logseq.settings.includeJournals || ranType == choices[3] )  ? true : false
+    let queryType = `[?p :block/journal? ${showJournal}]`
+    if ( ranType == choices[1] ) queryType = `[?p :block/tags [:block/name "${logseq.settings.searchTag}"]]`
+    if ( ranType == choices[0] ) queryType = ""
+    var query = `
+    [:find (pull ?p [*])
+    :where
+    [_ :block/page ?p]
+    [?p :block/name ?page]
+    (not [(= ?page "templates")])
+    ${queryType}
+    ]`
   try {
     let ret = await logseq.DB.datascriptQuery(query)
     const pages = ret?.flat()
@@ -94,22 +84,13 @@ async function onTemplate(uuid){
   } catch (error) { console.log(error) }
 }
 
-async function parseQuery(randomQuery,queryTag){
+async function parseQuery(queryTag){
   // https://stackoverflow.com/questions/19156148/i-want-to-remove-double-quotes-from-a-string
   let query = `[:find (pull ?b [*])
   :where
   [?b :block/path-refs [:block/name "${queryTag.toLowerCase().trim().replace(/^["'](.+(?=["']$))["']$/, '$1')}"]]]`
-  if ( randomQuery == "yesterday" ) {
-    query = `[:find (pull ?b [*])
-    :where
-    [?b :block/path-refs [:block/name "${queryTag.toLowerCase().trim().replace(/^["'](.+(?=["']$))["']$/, '$1')}"]]
-    [?b :block/page ?p]
-    [?p :block/journal? true]
-    [?p :block/journal-day ${journalDate()}]]`
-  }
   try { 
     let results = await logseq.DB.datascriptQuery(query) 
-    //Let this be, it won't hurt even if there's only one hit
     let flattenedResults = results.map((mappedQuery) => ({
       uuid: mappedQuery[0].uuid['$uuid$'],
     }))
@@ -134,17 +115,17 @@ function main() {
   }); 
  
   logseq.Editor.registerSlashCommand('Insert Serendipity', async () => {
-    await logseq.Editor.insertAtEditingCursor(`{{renderer :serendipity, random, quote}} `);
+    await logseq.Editor.insertAtEditingCursor(`{{renderer :serendipity, quote}} `);
   });
 
   logseq.App.onMacroRendererSlotted(async ({ slot, payload }) => {
     try {
-      var [type, randomQ , tagQ ] = payload.arguments
+      var [type, queryTag ] = payload.arguments
       if (type !== ':serendipity') return
 
       //is the block on a template?
       const templYN = await onTemplate(payload.uuid)        
-      const block = await parseQuery( randomQ, tagQ)
+      const block = await parseQuery(queryTag)
       // parseQuery returns false if no matching block can be found
       const msg = block ? `<span style="color: green">{{renderer ${payload.arguments} }}</span> (will run with template)` : `<span style="color: red">{{renderer ${payload.arguments} }}</span> (wrong tag?)`
 
@@ -164,22 +145,40 @@ function main() {
 
   logseq.App.registerCommandPalette({
     key: `serendipity-r`,
-    label: `Show random note`,
+    label: `Show any random note`,
     keybinding: {
       mode: 'global',
-      binding: 'r r'
+      binding: 's r'
     }
   }, async () => { openRandomNote(choices[0]) }); 
 
   //FIXME can this be the tag?
   logseq.App.registerCommandPalette({
-    key: `serendipity-s`,
-    label: `Show random note (tag)`,
+    key: `serendipity-t`,
+    label: `Show random tagged note`,
     keybinding: {
       mode: 'global',
-      binding: 'r s'
+      binding: 's s'
     }
   }, async () => { openRandomNote(choices[1]) }); 
+
+  logseq.App.registerCommandPalette({
+    key: `serendipity-n`,
+    label: `Show random note, anything but a journal`,
+    keybinding: {
+      mode: 'global',
+      binding: 's n'
+    }
+  }, async () => { openRandomNote(choices[2]) }); 
+
+  logseq.App.registerCommandPalette({
+    key: `serendipity-j`,
+    label: `Show random journal page`,
+    keybinding: {
+      mode: 'global',
+      binding: 's j'
+    }
+  }, async () => { openRandomNote(choices[3]) }); 
 
   logseq.App.registerUIItem("toolbar", {
     key: 'logseq-serendipity-toolbar',
